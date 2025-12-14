@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>난이도 선택</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            text-align: center;
+        }
+
+        img {
+            margin-top: 20px;
+            width: 400px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        /*.button-container {
+            position: fixed;
+            margin-top: 40px;
+            flex-direction: row;
+            margin-left: 710px;
+        }*/
+        
+        .button-container1 {
+            position: fixed;
+            top: 20px;
+            right: 20px; /* 오른쪽 상단에 위치 */
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        .button-container2 button {
+            padding: 120px 120px;
+            /* 버튼 크기를 키움 */
+            font-size: 40px;
+            /* 글자 크기를 키움 */
+            color: white;
+            /*background-color: #007bff;*/
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 20px;
+            /* 버튼 간의 간격 */
+        }
+
+        /* 각 버튼에 다른 색상 설정 */
+        #easy_game {
+            background-color: #28a745; /* 초록색 */
+        }
+
+        #medium_game {
+            background-color: #ffc107; /* 노란색 */
+        }
+
+        #hard_game {
+            background-color: #dc3545; /* 빨간색 */
+        }
+
+         /* 각 버튼 호버 색상 설정 */
+        #easy_game:hover {
+            background-color: #218838; /* 다크 초록색 */
+        }
+
+        #medium_game:hover {
+            background-color: #e0a800; /* 다크 노란색 */
+        }
+
+        #hard_game:hover {
+            background-color: #c82333; /* 다크 빨간색 */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <img src="/images/logo2.png" alt="게임 로고" onclick="location.href='/homepage'" style="cursor: pointer;">
+    <div class="button-container1">
+        <button id="logout-btn" onclick="logout()">로그아웃</button>
+    </div>
+    <h1></h1>
+    <h1>난이도를 선택하세요</h1>
+    <br><br>
+    <div class="button-container2">
+        <button id="easy_game" onclick="selectDifficulty('easy')">하</button>
+        <button id="medium_game" onclick="selectDifficulty('medium')">중</button>
+        <button id="hard_game" onclick="selectDifficulty('hard')">상</button>
+    </div>
+    <script>
+        function selectDifficulty(level) {
+            window.location.href = `/waiting?difficulty=${level}`;
+        }
+
+        //로그아웃
+        function logout() {
+            fetch('/logout', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // 클라이언트의 로컬 스토리지에 저장된 토큰 삭제
+                        localStorage.removeItem('token');
+                        // 로그인 페이지로 이동
+                        window.location.href = '/homepage';
+                    }
+                })
+                .catch(error => console.error('로그아웃 오류:', error));
+        }
+
+        // localStorage에서 토큰 가져오기
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            console.log("토큰이 저장되어 있습니다:", token); // 콘솔에 토큰 출력
+        } else {
+            console.log("토큰이 저장되어 있지 않습니다.");
+        }
+    </script>
+</body>
+
+</html>

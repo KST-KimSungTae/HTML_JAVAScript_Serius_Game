@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>게임 홈페이지</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1; /* body 기본 z-index 설정 */
+        }
+
+        /* 왼쪽 아래 파란색 삼각형 */
+        body::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 600px solid #0070C0;
+            border-top: 300px solid transparent;
+            z-index: -1; /* 삼각형을 뒤로 보내기 */
+        }
+
+        .content-container {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 40px;
+            gap: 90px;
+            z-index: 1;
+        }
+
+        .description {
+            font-size: 24px;
+            color: #333;
+            text-align: left;
+        }
+
+        img {
+            width: 430px;
+            height: auto;
+            margin-top: 20px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+            z-index: 1;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-container1 {
+            position: fixed;
+            top: 20px;
+            right: 20px; /* 오른쪽 상단에 위치 */
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            z-index: 1;
+        }
+
+        .container2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .container2 button {
+            padding: 15px 25px;
+            font-size: 25px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 7px;
+            z-index: 1;
+        }
+        .container2 button:hover {
+            background-color: #0056b3;
+        }
+
+        .no-pointer {
+            cursor: default;
+        }
+
+    </style>
+</head>
+
+<body>
+    <img src="/images/logo2.png" alt="게임 로고" onclick="location.href='/homepage'">
+    
+    <div class="button-container1">
+        <button id="login-btn" onclick="location.href='/login'" style="display: inline-block;">로그인</button>
+        <button id="logout-btn" onclick="logout()" style="display:none;">로그아웃</button>
+    </div>
+
+    <div class="content-container">
+        <div class="description">
+            <br>
+            <br>
+            <p><strong>MATCH ME!!</strong></p><br>
+            그림을 보고 올바른 한국어 단어와 영어 철자를 맞춰보세요!<br>
+        </div>
+        <img src="/images/home_design.gif" alt="게임 설명 이미지" class="no-pointer" style="width: 370px;">
+    </div>
+
+    <div class="container2">
+        <button id="game-rule" onclick="location.href='/rule'">HOW TO PLAY</button>
+        <button id="game-start" onclick="startGame()">GAME START</button>
+    </div>
+
+    <script>
+        window.onload = function () {
+            fetch('/is-logged-in')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.loggedIn) {
+                        document.getElementById('login-btn').style.display = 'none';
+                        document.getElementById('logout-btn').style.display = 'inline-block';
+                        document.getElementById('ranking-btn').style.display = 'inline-block';
+                    } else {
+                        document.getElementById('login-btn').style.display = 'inline-block';
+                        document.getElementById('logout-btn').style.display = 'none';
+                        document.getElementById('ranking-btn').style.display = 'none';
+                    }
+                });
+        };
+
+        function startGame() {
+            fetch('/is-logged-in')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.loggedIn) {
+                        window.location.href = '/difficulty';
+                    } else {
+                        alert("로그인을 해주십시오");
+                    }
+                });
+        }
+
+        function logout() {
+            fetch('/logout', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        localStorage.removeItem('token');
+                        window.location.href = '/homepage';
+                    }
+                })
+                .catch(error => console.error('로그아웃 오류:', error));
+        }
+
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            console.log("토큰이 저장되어 있습니다:", token);
+        } else {
+            console.log("토큰이 저장되어 있지 않습니다.");
+        }
+    </script>
+
+</body>
+
+</html>
+

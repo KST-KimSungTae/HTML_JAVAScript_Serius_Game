@@ -1,0 +1,169 @@
+<!--
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>게임 방법</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        img {
+            width: 430px;
+            height: auto;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        /* 배경 스타일 */
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px 40px;
+            border-radius: 10px;
+            margin: 50px;
+            width: 700px;
+        }
+
+        /* <ol> 안의 글자 크기 */
+        .container ol {
+            margin: 10px;
+            font-size: 18px;
+            /* 원하는 글자 크기로 변경 */
+            margin-bottom: 10px;
+            /* 각 항목 사이의 간격 */
+        }
+
+        /* 버튼 스타일 */
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="/images/logo3.png" alt="게임 로고" onclick="location.href='/homepage'">
+    <header>
+    <div class="container">
+        <h1>HOW TO PLAY</h1><br/>
+        <ol>로그인 후 난이도를 선택한다.</ol>
+        <ol>같이 게임할 상대를 찾는 동안 대기한다.</ol>
+        <ol>게임 화면이 나오면 해당 사진이 가장 어울리는 단어를 선택한다.</ol>
+        <ol>선택 후 나타나는 입력창에 선택한 단어를 영단어로 입력한다.</ol>
+        <ol>두 명 중 먼저 영단어까지 입력하는 사람이 1포인트를 가져간다.</ol>
+        <ol>총 11번의 게임을 진행한 뒤 더 포인트가 높은 사람이 승리한다.</ol>
+
+        <button id="check-button" onclick="location.href='/homepage'">확인</button>
+    </div>
+    </header>
+</body>
+
+</html>
+-->
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>게임 방법</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* 로고 스타일 */
+        .logo {
+            position: absolute;
+            top: 60px;
+            cursor: pointer;
+            width: 420px;
+            height: auto;
+        }
+
+        /* 컨테이너 스타일 */
+        .container {
+            background-color: #f9f9f9;
+            margin-top: 40px;
+            padding: 60px 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%; /* 너비를 80%로 설정 */
+            max-width: 900px; /* 최대 너비를 900px로 제한 */
+            text-align: center;
+        }
+
+        /* 게임 방법 리스트 스타일 */
+        .container ol {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            padding-left: 0; 
+            list-style-position: inside;
+        }
+
+        /* 버튼 스타일 */
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 20px auto 0; /* 가운데 정렬 */
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="/images/logo3.png" alt="게임 로고" onclick="location.href='/homepage'" class="logo">
+
+    <div class="container">
+        <h1>HOW TO PLAY</h1>
+        <br>
+        <ol>
+            <li>로그인 후 난이도를 선택한다.</li>
+            <li>같이 게임할 상대를 찾는 동안 대기한다.</li>
+            <li>게임 화면이 나오면 해당 사진이 가장 어울리는 단어를 선택한다.</li>
+            <li>선택 후 나타나는 입력창에 선택한 단어를 영단어로 입력한다.</li>
+            <li>두 명 중 먼저 영단어까지 입력하는 사람이 1포인트를 가져간다.</li>
+            <li>총 11번의 게임을 진행한 뒤 더 포인트가 높은 사람이 승리한다.</li>
+        </ol>
+        <br>
+        <button id="check-button" onclick="location.href='/homepage'">확인</button>
+    </div>
+</body>
+
+</html>

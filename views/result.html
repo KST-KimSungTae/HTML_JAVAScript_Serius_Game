@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게임 결과</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            text-align: center;
+        }
+
+        img {
+            margin-top: 20px;
+            width: 400px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 20px 0;
+            color: #333;
+        }
+ 
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="/images/logo2.png" alt="게임 로고" onclick="location.href='/homepage'" style="cursor: pointer;">
+
+        <h1>게임결과</h1>
+        <button id="play-again-btn" onclick="location.href='/difficulty'">다시 하기</button>
+
+        <div id="review-section">
+            <h2>복습 문제</h2>
+            <br>
+            <div id="review-questions-container"></div>
+        </div>
+    
+        <script>
+            // 로컬 저장소에서 복습 문제 리스트 가져오기
+            const reviewQuestions = JSON.parse(localStorage.getItem('reviewQuestions')) || [];
+    
+            const reviewContainer = document.getElementById('review-questions-container');
+    
+            // 복습 문제 리스트를 HTML에 표시
+            reviewQuestions.forEach((question, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.innerHTML = `
+                    <h3>문제 ${index + 1}</h3>
+                    <img src="${question.image}" alt="문제 그림">
+                    <p>정답: ${question.correct} / ${question.english} </p>
+                    <br>
+                `;
+                reviewContainer.appendChild(questionElement);
+            });
+    
+            // 필요시 로컬 저장소에서 삭제
+            localStorage.removeItem('reviewQuestions');
+        </script>
+    </header>
+</body>
+</html>

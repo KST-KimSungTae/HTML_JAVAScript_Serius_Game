@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>게임 진행</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        #container {
+            display: flex;
+            flex: 1;
+            width: 90%;
+        }
+
+        #left-panel,
+        #right-panel {
+            position: relative;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /*justify-content: flex-start;*/
+            justify-content: center;
+            border: 1px solid #ccc;
+            height: 90%;
+            box-sizing: border-box;
+            padding: 30px;
+        }
+        .timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.85);
+            /* 배경을 약간 더 불투명하게 */
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        img {
+            max-width: 70%;
+            max-height: 330px;
+            height: auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+
+        .game-container {
+            /* 이건 수정 완료 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* 수평 중앙 정렬 */
+            align-items: center;
+            width: 100%;
+            height: 70vh;
+            /* justify-content: flex-start; */
+            background-color: #fff;
+            border: 2px dashed #007bff;
+            /* margin-top: 20px; */
+            margin: 0 auto;
+            /* 좌우 중앙 정렬 */
+            padding: 20px;
+        }
+
+
+        /* .game-container {
+            width: 90%;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background-color: #fff;
+            border: 2px dashed #007bff;
+            margin-top: 20px;
+            padding: 20px;
+        } */
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        button {
+            padding: 13px 20px;
+            font-size: 20px;
+            max-width: 150px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 3px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .game-container img {
+            margin-bottom: 5px;
+        }
+        
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            /*margin: 5px;*/
+        }
+
+        #left-game-container, #right-game-container {
+            display: flex; /* Flexbox 활성화 */
+            flex-direction: column; /* 자식 요소를 세로로 정렬 */
+            justify-content: center; /* 수직 방향 가운데 정렬 */
+            align-items: center; /* 수평 방향 가운데 정렬 */
+            height: 100%; /* 컨테이너 높이를 설정 (부모 요소에 따라 다름) */
+            text-align: center; /* 텍스트 가운데 정렬 */
+        }
+
+        #left-game-container img, #right-game-container img {
+            max-width: 60%; /* 이미지가 너무 크지 않도록 제한 */
+            height: auto; /* 가로세로 비율 유지 */
+            margin-bottom: 10px; /* 버튼과의 간격 */
+        }
+
+        #left-game-container button, #right-game-container button {
+            margin: 5px; /* 버튼 간격 추가 */
+        }
+        
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <header>
+        <img src="images/logo2.png" alt="게임 로고">
+    </header>
+    <div id="memberFullMessage" style="display: none; text-align: center; margin-top: 50px; font-size: 20px;">
+        <p style="margin-bottom: 20px;">인원이 초과되었습니다. 난이도를 다시 선택해주세요.</p>
+        <button id="goBackButton">돌아가기</button>
+    </div>
+    <div class="button-container">
+        <button onclick="confirmExit()">나가기</button>
+    </div>
+    <div id="container">
+        <div id="left-panel">            
+            <div id="timer-left" class="timer">01:00</div>
+            <div id="left-game-container" class="game-container">
+                <img src="path_to_your_image" alt="게임 이미지 왼쪽">
+                <div class="button-container">
+                    <button>Button 1</button>
+                    <button>Button 2</button>
+                </div>
+            </div>
+        </div>
+        <div id="right-panel">
+            <div id="timer-right" class="timer">01:00</div>
+            <div id="right-game-container" class="game-container">
+                <img id="right-image" src="path_to_your_image" alt="게임 이미지 오른쪽">
+            </div>
+        </div>
+    </div>
+
+    <script src="js/game.js"></script>
+    <script>
+        // 뒤로가기를 막는 코드
+        window.addEventListener("popstate", (event) => {
+            event.preventDefault();
+            alert("게임 중에는 나가실 수 없습니다.");
+            history.pushState(null, null, location.href);
+        });
+
+        // 페이지를 벗어나려 할 때 경고를 표시하는 코드
+        window.addEventListener("beforeunload", (event) => {
+            event.preventDefault();
+            event.returnValue = ""; // 일부 브라우저에서 필요함
+        });
+
+        //나가기 버튼
+        function confirmExit() {
+            // 사용자에게 확인을 요청하는 메시지 표시
+            const userConfirmed = confirm('나가시면 패배 처리 됩니다. 정말 나가시겠습니까?');
+
+            // 사용자가 확인을 누르면 홈페이지로 이동
+            if (userConfirmed) {
+                window.location.href = '/homepage';  // 홈페이지로 이동
+            }
+        }
+    </script>
+</body>
+
+</html>

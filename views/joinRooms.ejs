@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>방 입장하기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+        }
+
+        img {
+            margin-top: 20px;
+            width: 400px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .room-list {
+            width: 80%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .room {
+            padding: 15px;
+            background-color: #e1e8ff;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .room-info {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .enter-button {
+            padding: 8px 15px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .enter-button:hover {
+            background-color: #0056b3;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        .button-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            /* 오른쪽 상단에 위치 */
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <img src="images/logo2.png" alt="게임 로고">
+    <h1>생성된 방에 참여하기</h1>
+
+    <!-- 방 이름과 난이도 표시 -->
+    <div>
+        <ul>
+            <% rooms.forEach(function(room) { %>
+                <li>방 이름: <%= room.roomName %>, 난이도: <%= room.difficulty==='easy' ? '하' : room.difficulty==='medium'
+                            ? '중' : '상' %>
+                            <form action="/enterRoom" method="GET" style="display:inline;">
+                                <input type="hidden" name="roomName" value="<%= room.roomName %>">
+                                <input type="hidden" name="difficulty" value="<%= room.difficulty %>">
+                                <button type="submit" class="enter-button">입장</button>
+                            </form>
+                </li>
+                <% }); %>
+        </ul>
+    </div>
+    <div class="button-container">
+        <button onclick="location.href='/logout'">로그아웃</button>
+        <button onclick="location.href='/ranking'">랭킹</button>
+    </div>
+
+
+</body>
+
+
+</html>

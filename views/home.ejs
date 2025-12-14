@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+    <h1>Welcome, <%= userId %>!</h1>
+
+    <!-- 로그아웃 버튼 -->
+    <button onclick="logout()">Logout</button>
+
+    <script>
+        function logout() {
+            fetch('/logout', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // 클라이언트의 로컬 스토리지에 저장된 토큰 삭제
+                        localStorage.removeItem('token');
+                        // 로그인 페이지로 이동
+                        window.location.href = '/login';
+                    }
+                })
+                .catch(error => console.error('로그아웃 오류:', error));
+        }
+
+        // localStorage에서 토큰 가져오기
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            console.log("토큰이 저장되어 있습니다:", token); // 콘솔에 토큰 출력
+        } else {
+            console.log("토큰이 저장되어 있지 않습니다.");
+        }
+    </script>
+
+</body>
+
+</html>
